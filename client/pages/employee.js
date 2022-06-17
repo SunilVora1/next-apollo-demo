@@ -1,12 +1,18 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { useQuery } from '@apollo/client'
-import { Container, Row, Col, Table, Form, Button } from 'react-bootstrap'
+import { Table, Button } from 'react-bootstrap'
 import { GET_EMPLOYEES_QUERY } from '../queries/query'
+import { TableRow, ButtonContainer, TableHead, ColumnName, HeadingContainer, Container } from '../styles/employee.styled';
 
 const Employee = () => {
     const { loading, error, data } = useQuery(GET_EMPLOYEES_QUERY);
-    const [records, setRecords] = useState(data.employees.slice(0, 20));
+    const [records, setRecords] = useState(data?.employees?.slice(0, 20));
     const [count, setCount] = useState(20);
+
+    useEffect(() => {
+        setRecords(data?.employees?.slice(0, 20));
+    }, [data]);
+
     if (loading) return 'Loading...';
     if (error) return `Error! ${error.message}`;
 
@@ -17,29 +23,36 @@ const Employee = () => {
 
     return (
         <React.Fragment>
+            <Container>
+            <HeadingContainer>
+                Employee Records
+            </HeadingContainer>
             <Table>
-            <thead>
+            <TableHead>
                 <tr>
-                  <th>Name</th>
-                  <th>Address</th>
-                  <th>Email</th>
-                  <th>Phone Number</th>
+                  <ColumnName>Name</ColumnName>
+                  <ColumnName>Address</ColumnName>
+                  <ColumnName>Email</ColumnName>
+                  <ColumnName>Phone Number</ColumnName>
                 </tr>
-              </thead>
+              </TableHead>
               <tbody>
-                {records.map((employee, i) => {
+                {records?.map((employee, i) => {
                   return (
-                    <tr>
+                    <TableRow>
                       <td>{employee.name}</td>
                       <td>{employee.address}</td>
                       <td>{employee.email}</td>
                       <td>{employee.phoneNumber}</td>
-                    </tr>
+                    </TableRow>
                   )
                 })}
               </tbody>
             </Table>
-            <Button onClick={() => handleMore(count)}>Load More</Button>
+            <ButtonContainer>
+                <Button onClick={() => handleMore(count)}>Load More</Button>
+            </ButtonContainer>
+            </Container>
         </React.Fragment>
     );
 }
