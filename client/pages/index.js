@@ -1,14 +1,14 @@
-import Link from 'next/link'
-import WithApollo from '../lib/with-apollo'
-import Name from '../components/Name'
+import Head from "next/head";
+import Employee from "./employee";
 
-const Page = () => (
-  <div>
-    Welcome, <Name />
-    <br/><br/>
-    <Link href="/about"><a>About</a></Link>
-
-  </div>
-)
-
-export default WithApollo(Page)
+export default function ClientSide() {
+  return (
+    <div>
+      <Head>
+        <title>Create Next App</title>
+        <link rel="icon" href="/favicon.ico" />
+      </Head>
+      <Employee />
+    </div>
+  );
+}

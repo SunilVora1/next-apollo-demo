@@ -1,10 +1,10 @@
-import { withData } from 'next-apollo'
+import { withApollo } from 'next-apollo'
 import { HttpLink } from 'apollo-link-http'
 
 const apolloConfig = {
   link: new HttpLink({
-    uri: 'https://faker-graphql.now.sh/graphql'
+    uri: 'http://localhost:3030/graphql'
   })
 }
 
-export default withData(apolloConfig)
+export default withApollo(apolloConfig)
